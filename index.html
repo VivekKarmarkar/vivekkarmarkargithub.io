@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My AI Journey: From PINNs to GenAI</title>
+  <meta name="description" content="A comprehensive journey through AI education covering PINNs, Mathematics of Machine Learning, and Generative AI systems.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.7;
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+      color: #e0e0e0;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .hero {
+      text-align: center;
+      padding: 80px 0 60px;
+      background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+      margin-bottom: 0;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.03"><polygon points="0,0 1000,0 1000,100"/></svg>') repeat-x;
+      pointer-events: none;
+    }
+    
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #64ffda 0%, #1de9b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .hero .subtitle {
+      font-size: 1.3rem;
+      color: #b0bec5;
+      font-weight: 300;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+    
+    .venn-diagram {
+      text-align: center;
+      margin: 60px 0;
+      padding: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      animation: fadeIn 1s ease-out 0.6s both;
+    }
+    
+    .venn-visual {
+      width: 100%;
+      max-width: 500px;
+      height: 400px;
+      margin: 0 auto 20px;
+      position: relative;
+    }
+    
+    .circle {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 20px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .circle:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+    
+    .genai {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.8), rgba(255, 152, 0, 0.8));
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #000;
+    }
+    
+    .pinns {
+      background: linear-gradient(135deg, rgba(0, 188, 212, 0.8), rgba(0, 150, 136, 0.8));
+      bottom: 20px;
+      left: 20px;
+      color: #fff;
+    }
+    
+    .math {
+      background: linear-gradient(135deg, rgba(63, 81, 181, 0.8), rgba(48, 63, 159, 0.8));
+      bottom: 20px;
+      right: 20px;
+      color: #fff;
+    }
+    
+    section {
+      margin: 60px 0;
+      padding: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s;
+    }
+    
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    
+    section:hover::before {
+      left: 100%;
+    }
+    
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #64ffda 0%, #1de9b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+    }
+    
+    h3 {
+      color: #80cbc4;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+    
+    p {
+      margin-bottom: 20px;
+      color: #cfd8dc;
+      font-size: 1.1rem;
+    }
+    
+    .emoji {
+      font-size: 1.5em;
+      margin-right: 12px;
+      display: inline-block;
+      animation: bounce 2s infinite;
+    }
+    
+    ul, ol {
+      margin: 20px 0;
+      padding-left: 30px;
+    }
+    
+    li {
+      margin-bottom: 10px;
+      color: #cfd8dc;
+      font-size: 1.05rem;
+    }
+    
+    strong {
+      color: #64ffda;
+      font-weight: 600;
+    }
+    
+    em {
+      color: #80cbc4;
+      font-style: italic;
+    }
+    
+    .video-container {
+      text-align: center;
+      margin: 40px 0;
+      padding: 30px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .video-container iframe {
+      width: 100%;
+      max-width: 560px;
+      height: 315px;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    .framework-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin: 30px 0;
+    }
+    
+    .framework-item {
+      padding: 25px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .framework-item:hover {
+      transform: translateY(-8px);
+    }
+    
+    .cta-section {
+      text-align: center;
+      padding: 60px 40px;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      border-radius: 20px;
+      margin: 60px 0;
+    }
+    
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .author-credit {
+      text-align: center;
+      padding: 30px;
+      color: #78909c;
+      font-style: italic;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .scroll-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #64ffda 0%, #1de9b6 100%);
+      transform-origin: left;
+      transform: scaleX(0);
+      z-index: 1000;
+      transition: transform 0.1s ease;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 15px;
+      }
+      
+      section {
+        padding: 25px;
+        margin: 30px 0;
+      }
+      
+      .venn-visual {
+        height: 300px;
+      }
+      
+      .circle {
+        width: 150px;
+        height: 150px;
+        font-size: 0.9rem;
+        padding: 15px;
+      }
+      
+      .video-container iframe {
+        height: 200px;
+      }
+      
+      .framework-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-indicator" id="scroll-indicator"></div>
+
+  <div class="hero">
+    <div class="container">
+      <h1><span class="emoji">🚀</span>My AI Journey: From PINNs to GenAI</h1>
+      <p class="subtitle">Building bridges between theory, innovation, and application</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Interactive Venn Diagram -->
+    <div class="venn-diagram">
+      <h3>The Three Pillars of My AI Education</h3>
+      <div class="venn-visual">
+        <div class="circle genai" title="GenAI Systems - Application Layer">
+          <div>
+            <strong>GenAI Systems</strong><br>
+            <small>Understanding, interacting with, and chaining together AI systems</small>
+          </div>
+        </div>
+        <div class="circle pinns" title="PINNs - Innovation Layer">
+          <div>
+            <strong>PINNs</strong><br>
+            <small>Designing neural nets from scratch to solve physics problems</small>
+          </div>
+        </div>
+        <div class="circle math" title="Math for ML - Theory Layer">
+          <div>
+            <strong>Mathematics of ML</strong><br>
+            <small>Understanding why design choices work and proving principles</small>
+          </div>
+        </div>
+      </div>
+      <p><em>Interactive visualization showing the overlap of GenAI, PINNs, and Math for ML</em></p>
+    </div>
+
+    <section>
+      <h2><span class="emoji">🌍</span>Setting the Stage</h2>
+      <p>When I stepped into the world of AI, I knew I didn't want to just <em>use</em> it — I wanted to <strong>understand it, build with it, and push its boundaries</strong>. My journey at the University of Iowa took me through three cornerstone classes that shaped my AI mind-map:</p>
+      <ol>
+        <li><strong>Physics-Informed Neural Networks (PINNs)</strong> — Mechanical Engineering</li>
+        <li><strong>Mathematics of Machine Learning</strong> — Mathematics</li>
+        <li><strong>Generative AI Tools (GAIT) and Beyond</strong> — Electrical & Computer Engineering</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2><span class="emoji">⚙️</span>PINNs: Building Blocks from Scratch</h2>
+      <p>PINNs taught me how to design neural networks from the ground up, not as black boxes but as <strong>physics-powered problem solvers</strong>. Automatic differentiation, physics-based loss functions, and custom architectures became my toolkit.</p>
+      <p>This was where I first blurred the line between <em>research</em> and <em>coursework</em>: I built independent ideas around <strong>PINNs for Quaternion Differential Equations (QDEs)</strong>. It wasn't about solving toy problems - it was about pushing AI to meet Physics head-on.</p>
+      <p>I also collaborated with an AI-focused EdTech start-up to develop a module on PINNs and my introductory lecture on YouTube has 15K+ views and counting!</p>
+    </section>
+
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/zjH8imO-UWo?si=_E8C_vM06klTXoVu" title="PINNs Introduction Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <section>
+      <h2><span class="emoji">📊</span>Math for ML: The "Why" Behind the Magic</h2>
+      <p>The math course gave me the clarity I craved: <em>why do certain neural nets work better?</em> <em>why do some design choices generalize while others collapse?</em></p>
+      <p>It wasn't just about PINNs. It was about the <strong>fundamental design principles</strong> that apply across the entire spectrum of AI. This layer gave me the rigor to justify choices, not just hack them together.</p>
+      <p>And it sparked my independent research thinking: if we can reason about neural nets mathematically, then we can systematically push their limits and that resulted in further development on my PINNs for QDEs culminating in the mathematical scaffolding of my research as the course project.</p>
+    </section>
+
+    <section>
+      <h2><span class="emoji">🤖</span>GenAI Systems: The Missing Piece</h2>
+      <p>This Fall 2025, I'm taking the <strong>Generative AI course with Prof. Tyler Bell</strong>, and it feels like perfect timing. GenAI isn't about building networks from scratch — it's about <strong>understanding, interacting with, and chaining together powerful AI systems</strong>.</p>
+      <p>It's the capstone of my AI journey so far. PINNs and Math for ML gave me the tools to dissect and design at the <em>block</em> level, but GenAI is about orchestrating the <em>whole symphony</em>.</p>
+      <p>With Tyler's teaching, it feels like the ecosystem is finally complete.</p>
+    </section>
+
+    <section>
+      <h2><span class="emoji">🧩</span>My Framework</h2>
+      <div class="framework-grid">
+        <div class="framework-item">
+          <h3>🎯 GenAI Systems</h3>
+          <p><strong>The User & Builder view:</strong> collaborating with AI in practice, chaining tools into projects.</p>
+        </div>
+        <div class="framework-item">
+          <h3>🏗️ PINNs</h3>
+          <p><strong>The Architect & Innovator view:</strong> designing new neural nets when existing ones don't cut it.</p>
+        </div>
+        <div class="framework-item">
+          <h3>📐 Math for ML</h3>
+          <p><strong>The Theorist view:</strong> understanding <em>why</em> design choices work and proving principles that generalize.</p>
+        </div>
+      </div>
+      <p style="text-align: center; font-size: 1.3rem; margin-top: 30px;">
+        Together, these layers give me <strong>Application → Innovation → Theory</strong>.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="emoji">🎨</span>Beyond the Classroom</h2>
+      <p>But my journey wasn't just classes:</p>
+      <ul>
+        <li>Audited <strong>Caltech's CS156 YouTube lectures</strong></li>
+        <li>Watched <strong>ETH Zurich's SciML lectures</strong> and the <strong>Max Planck playlist on Advanced ML for Physics</strong></li>
+        <li>Partnered with an EdTech start-up to deliver lectures on PINNs with select videos garnering over 15K+ views</li>
+        <li>Conducted independent research on PINNs for Quaternionic Differential Equations (QDEs)</li>
+        <li>Co-authored Medium articles with ChatGPT</li>
+        <li>Built <strong>GPT Bhojan (a food app)</strong> and experimented with <strong>GPT Manim (a math education app)</strong></li>
+        <li>Created <strong>50+ STEM education apps with Cove</strong></li>
+      </ul>
+      <p>This mix of <em>formal learning + independent exploration + creative building</em> is what gave my AI story its edge.</p>
+    </section>
+
+    <div class="cta-section">
+      <h2><span class="emoji">🔮</span>The Takeaway</h2>
+      <p>My AI journey isn't about ticking off courses. It's about weaving together:</p>
+      <div class="framework-grid" style="margin-top: 30px;">
+        <div style="text-align: center;">
+          <h3>💡 Theory (Math)</h3>
+        </div>
+        <div style="text-align: center;">
+          <h3>🚀 Innovation (PINNs)</h3>
+        </div>
+        <div style="text-align: center;">
+          <h3>⚡ Application (GenAI)</h3>
+        </div>
+      </div>
+      <p style="margin-top: 30px;">And then amplifying it with creativity and collaboration. From Medium essays to Physics apps, I've built not just skills but an <strong>ecosystem of learning, research, and teaching</strong>.</p>
+      <p>The story isn't finished, but the arc is clear: I'm not just following AI - I'm shaping how it's learned, taught and applied.</p>
+      <p style="font-size: 1.5rem; margin-top: 40px;"><span class="emoji">🔥</span><strong>This is my AI mind-map. What's yours?</strong></p>
+    </div>
+
+    <div class="author-credit">
+      <p>by ChatGPT (voice) & Vivek (lived experience)</p>
+    </div>
+  </div>
+
+  <script>
+    // Smooth scroll indicator
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const maxHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = scrolled / maxHeight;
+      document.getElementById('scroll-indicator').style.transform = `scaleX(${progress})`;
+    });
+
+    // Add intersection observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all sections
+    document.querySelectorAll('section').forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(20px)';
+      section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(section);
+    });
+
+    // Add click effects to Venn diagram circles
+    document.querySelectorAll('.circle').forEach(circle => {
+      circle.addEventListener('click', () => {
+        circle.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+          circle.style.transform = 'scale(1.05)';
+        }, 200);
+      });
+    });
+  </script>
+</body>
+</html>
